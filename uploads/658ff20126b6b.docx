@@ -1,0 +1,10 @@
+<br />
+<b>Warning</b>:  Undefined array key "FILE_TYPE" in <b>C:\xampp\htdocs\filemanagement\Private_Dashboard\download_uploaded_file.php</b> on line <b>18</b><br />
+<br />
+<b>Warning</b>:  Undefined array key "FILE_SIZE" in <b>C:\xampp\htdocs\filemanagement\Private_Dashboard\download_uploaded_file.php</b> on line <b>20</b><br />
+<br />
+<b>Fatal error</b>:  Uncaught ValueError: Path cannot be empty in C:\xampp\htdocs\filemanagement\Private_Dashboard\download_uploaded_file.php:23
+Stack trace:
+#0 C:\xampp\htdocs\filemanagement\Private_Dashboard\download_uploaded_file.php(23): readfile('')
+#1 {main}
+  thrown in <b>C:\xampp\htdocs\filemanagement\Private_Dashboard\download_uploaded_file.php</b> on line <b>23</b><br />
