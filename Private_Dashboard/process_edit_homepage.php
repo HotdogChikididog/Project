@@ -15,16 +15,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve other values from the form
         $form_data = [
             'company_name' => $_POST['company_name'],
+            'mission_text' => $_POST['mission_text'],
+            'vision_text' => $_POST['vision_text'],
         ];
-        $companyName = $_POST["company_name"];
-        $mission_text = $_POST["mission_text"];
-        $vision_text = $_POST["vision_text"];
-        $id = $_POST['id'];
 
         // traditonal way of separating strings based on space and replace space with _
         // $slug = implode('_',explode(" ",$companyName));
         $slug = str_replace(" ", "_", $companyName);
 
+
+        
+        foreach($form_data as $key => $row)
+        {
+            if(!empty(get_metadata($row['slug'])))  {
+                $statement = $conn->prepare("UPDATE `metadata` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
+                $statement->bind_param("sss", $row['value'], date(), $row['slug']);
+                $statement->execute();
+                $statement->close();
+            } else {
+                $statement = $conn->prepare("INSERT INTO `metadata` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
+                $statement->bind_param("sss", $row['value'], $row['name'], $row['slug']);
+                $statement->execute();
+                $statement->close();
+            }
+        }
 
         // --- START ---
         // Read the existing index.html file
@@ -49,12 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //     $statement = "INSERT INTO `meta_data` (`logo`, `company_name`, `mission_text`, `vision_text`, `slug`) VALUES ('$logo', '$companyName', '$mission_text', '$vision_text', '$slug')";
         // }
 
-
-        $statement = ($id) 
-            ? "UPDATE `meta_data` SET `logo` = '$logo', `company_name` = '$companyName', `mission_text` = '$mission_text', `vision_text` = '$vision_text', `slug` = '$slug' WHERE `id` = '$id'" 
-            : "INSERT INTO `meta_data` (`logo`, `company_name`, `mission_text`, `vision_text`, `slug`) VALUES ('$logo', '$companyName', '$mission_text', '$vision_text', '$slug')";
-
-        $query = mysqli_query($conn, $statement);
         // Redirect the user back to the edit homepage page
         if (mysqli_query($conn, $sql)) {
                     echo '
