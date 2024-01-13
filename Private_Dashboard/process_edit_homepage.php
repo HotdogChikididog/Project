@@ -24,20 +24,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $slug = str_replace(" ", "_", $companyName);
 
 
-        
-        foreach($form_data as $key => $row)
-        {
-            if(!empty(get_metadata($row['slug'])))  {
-                $statement = $conn->prepare("UPDATE `metadata` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
-                $statement->bind_param("sss", $row['value'], date(), $row['slug']);
-                $statement->execute();
-                $statement->close();
-            } else {
-                $statement = $conn->prepare("INSERT INTO `metadata` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
-                $statement->bind_param("sss", $row['value'], $row['name'], $row['slug']);
-                $statement->execute();
-                $statement->close();
+        $conn->begin_transaction();
+
+        try{
+            foreach($form_data as $key => $row)
+            {
+                if(!empty(get_metadata($row['slug'])))  {
+                    $statement = $conn->prepare("UPDATE `metadata` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
+                    $statement->bind_param("sss", $row['value'], date(), $row['slug']);
+                    $statement->execute();
+                    $statement->close();
+                } else {
+                    $statement = $conn->prepare("INSERT INTO `metadata` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
+                    $statement->bind_param("sss", $row['value'], $row['name'], $row['slug']);
+                    $statement->execute();
+                    $statement->close();
+                }
             }
+
+            if($conn->commit()){
+                echo '
+                <script type = "text/javascript">
+                    alert("File Upload");
+                    window.location = "edit_homepage.php";
+                </script>';
+            }
+        } catch(mysqli_sql_exception $e) {
+            $conn->rollback();
+
+            throw $e;
         }
 
         // --- START ---
@@ -63,15 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //     $statement = "INSERT INTO `meta_data` (`logo`, `company_name`, `mission_text`, `vision_text`, `slug`) VALUES ('$logo', '$companyName', '$mission_text', '$vision_text', '$slug')";
         // }
 
-        // Redirect the user back to the edit homepage page
-        if (mysqli_query($conn, $sql)) {
-                    echo '
-                    <script type = "text/javascript">
-                    alert("File Upload");
-                    window.location = "edit_homepage.php";
-                </script>';
-            }
-        // header("Location: edit_homepage.php");
         exit();
     } else {
         // Handle file upload error
