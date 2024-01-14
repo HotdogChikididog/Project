@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try{
             foreach($form_data as $key => $row)
             {
-                $row['slug'] = str_replace(" ", "_", $row['value']);
+                $row['slug'] = str_replace(" ", "_", $key);
 
                 if(!empty($get_metadata($row['slug'])))  {
                     $statement = $conn->prepare("UPDATE `meta_data` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
