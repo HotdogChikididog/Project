@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -138,7 +141,7 @@
   <!-- Start your project here-->
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color fixed-top">
-  <a class="navbar-brand" href="#"><img src="js/img/Logo.png" width="33px" height="33px"> <font color="#F0B56F">H</font>ealth <font color="#F0B56F">D</font>ata <font color="#F0B56F">H</font>ub</a>
+  <a class="navbar-brand" href="#"><img src="<?=($_SESSION['metadata']['slug'] === 'logo') ? $_SESSION['metadata']['value'] : ''?>" width="33px" height="33px"> <span><?=($_SESSION['metadata']['slug'] === 'company_name') ? $_SESSION['metadata']['value'] : ''?></span> </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
     aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -156,7 +159,7 @@
           <i class="fab fa-instagram"></i> Instagram</a>
       </li> -->
         <li class="nav-item">
-        <a class="nav-link" href="login.html">
+        <a class="nav-link" href="login.php">
           <i class="fas fa-user"></i> LogIn</a>
       </li>
   <!--     <li class="nav-item dropdown">
