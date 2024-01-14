@@ -5,7 +5,7 @@ $conn = mysqli_connect("localhost:3306","root","","file_management");
 $statement = $conn->prepare('SELECT * FROM meta_data');
 $statement->execute();
 $result = $statement->get_result();
-$data = $result->fetch_assoc(); 
+$data = $result->fetch_all(MYSQLI_ASSOC); 
 $statement->close();
 
 $_SESSION['metadata'] = $data;
@@ -243,12 +243,18 @@ $_SESSION['metadata'] = $data;
     <div class="container col-md-11 ">
       <h3>Assign responsibility</h3>
       <hr></hr>
-      <p class="aaa">
+      <!-- <p class="aaa">
 One individual should be assigned the responsibility for developing and coordinating the new filing system. This task usually falls to the Records Coordinator. The Records Coordinator may work in conjunction with the Records Authority or with a committee established for that purpose. The Records Coordinator may implement the system or may supervise others in its implementation.
 
 The first step in developing or improving a filing system is to gain the support of both the administration and the users of the system. Administrative support legitimizes the project and ensures the cooperation of all members of the office.
 
-Every member of the office must understand the purpose and scope of the project. Everyone should be involved in the process. The creator of a record may provide important insight useful during the analysis of the records. Office members can help determine which features or aspects of the present system work well and should be retained. Office members can also help identify specific problems within the present system that must be changed. Most importantly, involving others in the process makes them more amenable to using the system once it is implemented.</p>
+Every member of the office must understand the purpose and scope of the project. Everyone should be involved in the process. The creator of a record may provide important insight useful during the analysis of the records. Office members can help determine which features or aspects of the present system work well and should be retained. Office members can also help identify specific problems within the present system that must be changed. Most importantly, involving others in the process makes them more amenable to using the system once it is implemented.</p> -->
+
+    <!-- Mission  -->
+    <p><?=($_SESSION['metadata']['slug'] === 'mission_text') ? $_SESSION['metadata']['value'] : ''?></p>
+
+    <!-- Vision -->
+    <p><?=($_SESSION['metadata']['slug'] === 'vision_text') ? $_SESSION['metadata']['value'] : ''?></p>
     </div>
 
 </div>
