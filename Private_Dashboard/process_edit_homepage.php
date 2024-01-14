@@ -6,8 +6,6 @@ require_once("include/connection.php");
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle file uploads
-    print_r($_POST);
-    die();
     $logo = $_FILES["logo"]["name"];
     if (move_uploaded_file($_FILES["logo"]["tmp_name"], "uploads/" . $logo)) {
         // File uploaded successfully, continue processing
@@ -21,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // traditonal way of separating strings based on space and replace space with _
         // $slug = implode('_',explode(" ",$companyName));
-        $slug = str_replace(" ", "_", $companyName);
+
+
+        // $slug = str_replace(" ", "_", $companyName);
 
 
         $conn->begin_transaction();
@@ -29,6 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try{
             foreach($form_data as $key => $row)
             {
+                $row['slug'] = str_replace(" ", "_", $row['value']);
+
                 if(!empty(get_metadata($row['slug'])))  {
                     $statement = $conn->prepare("UPDATE `metadata` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
                     $statement->bind_param("sss", $row['value'], date(), $row['slug']);
