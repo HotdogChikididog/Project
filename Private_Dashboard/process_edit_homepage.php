@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $filepath = 'logo' . '.' . $extension;
 
     // destination of the file on the server
-    $destination = 'uploads/meta_data/' . $filepath;
+    $destination = 'filemanagement/uploads/meta_data/' . $filepath;
 
     $relative_destination = '../uploads/meta_data/' . $filepath;
     $file = $_FILES['logo']['tmp_name'];
