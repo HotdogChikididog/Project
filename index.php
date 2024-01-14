@@ -10,6 +10,7 @@ $statement->close();
 
 foreach($data as $row){
   $_SESSION['metadata'][$row['slug']] = $row;
+  // example: $_SESSION['metadata]['company_name']
 }
 ?>
 <!DOCTYPE html>
