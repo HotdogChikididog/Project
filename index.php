@@ -8,7 +8,9 @@ $result = $statement->get_result();
 $data = $result->fetch_all(MYSQLI_ASSOC); 
 $statement->close();
 
-$_SESSION['metadata'] = $data;
+foreach($data as $row){
+  $_SESSION['metadata'][$row['slug']] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -150,8 +152,15 @@ $_SESSION['metadata'] = $data;
   <!-- Start your project here-->
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color fixed-top">
-  <a class="navbar-brand" href="#"><img src="<?=($_SESSION['metadata']['slug'] === 'logo') ? $_SESSION['metadata']['value'] : ''?>" width="33px" height="33px"> <span><?=($_SESSION['metadata']['slug'] === 'company_name') ? $_SESSION['metadata']['value'] : ''?></span> </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+  <a class="navbar-brand" href="#">
+    <img 
+      src="<?=$_SESSION['metadata']['logo']['value']?>" 
+      width="33px" 
+      height="33px"
+    > 
+      <span><?=$_SESSION['metadata']['company_name']['value']?></span> 
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
     aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -251,10 +260,10 @@ The first step in developing or improving a filing system is to gain the support
 Every member of the office must understand the purpose and scope of the project. Everyone should be involved in the process. The creator of a record may provide important insight useful during the analysis of the records. Office members can help determine which features or aspects of the present system work well and should be retained. Office members can also help identify specific problems within the present system that must be changed. Most importantly, involving others in the process makes them more amenable to using the system once it is implemented.</p> -->
 
     <!-- Mission  -->
-    <p><?=($_SESSION['metadata']['slug'] === 'mission_text') ? $_SESSION['metadata']['value'] : ''?></p>
+    <p><?=$_SESSION['metadata']['mission_text']['value']?></p>
 
     <!-- Vision -->
-    <p><?=($_SESSION['metadata']['slug'] === 'vision_text') ? $_SESSION['metadata']['value'] : ''?></p>
+    <p><?=$_SESSION['metadata']['vission_text']['value']?></p>
     </div>
 
 </div>
