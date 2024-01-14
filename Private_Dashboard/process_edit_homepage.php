@@ -14,9 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // destination of the file on the server
     $destination = $_SERVER['DOCUMENT_ROOT'] . 'filemanagement/uploads/meta_data/' . $filepath;
 
+    $relative_destination = '../uploads/meta_data/' . $filepath;
     $file = $_FILES['logo']['tmp_name'];
 
-    if (move_uploaded_file($file, $destination)) {
+    if (move_uploaded_file($file, $relative_destination)) {
         // File uploaded successfully, continue processing
 
         // Retrieve other values from the form
