@@ -7,8 +7,7 @@ if(!$conn){
 
 if(!function_exists('get_metadata'))
 {
-	function get_metadata($slug)
-	{
+	$get_metadata = function($slug) use($conn){
 		$table = "metadata";
 		
 		$statement = $conn->prepare("SELECT * FROM $table WHERE slug = ?");
@@ -20,7 +19,7 @@ if(!function_exists('get_metadata'))
 		$conn->close();
 	
 		return empty($data) ? 0 : 1;
-	}
+	};
 }
 
 ?>

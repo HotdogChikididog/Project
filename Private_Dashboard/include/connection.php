@@ -7,7 +7,7 @@ if(!$conn){
 
 if(!function_exists('get_metadata'))
 {
-	function get_metadata($slug)
+	$get_metadata = function ($slug) use($conn)
 	{
 		$table = "metadata";
 		
@@ -20,6 +20,6 @@ if(!function_exists('get_metadata'))
 		$conn->close();
 	
 		return empty($data) ? 0 : 1;
-	}
+	};
 }
 ?>
