@@ -1,5 +1,14 @@
 <?php 
 session_start();
+$conn = mysqli_connect("localhost:3306","root","","file_management");
+
+$statement = $conn->prepare('SELECT * FROM meta_data');
+$statement->execute();
+$result = $statement->get_result();
+$data = $result->fetch_assoc(); 
+$statement->close();
+
+$_SESSION['metadata'] = $data;
 ?>
 <!DOCTYPE html>
 <html lang="en">
