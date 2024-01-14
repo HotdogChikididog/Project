@@ -263,7 +263,7 @@ Every member of the office must understand the purpose and scope of the project.
     <p><?=$_SESSION['metadata']['mission_text']['value']?></p>
 
     <!-- Vision -->
-    <p><?=$_SESSION['metadata']['vission_text']['value']?></p>
+    <p><?=$_SESSION['metadata']['vision_text']['value']?></p>
     </div>
 
 </div>
