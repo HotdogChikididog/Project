@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $filepath = 'logo' . '.' . $extension;
 
     // destination of the file on the server
-    $destination = '../uploads/meta_data/' . $filepath;
+    $destination = $_SERVER['DOCUMENT_ROOT'] . 'filemanagement/uploads/meta_data/' . $filepath;
 
     $file = $_FILES['logo']['tmp_name'];
 
@@ -35,6 +35,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $conn->begin_transaction();
 
+        if($get_metadata('logo')){
+            $statement = $conn->prepare("UPDATE `meta_data` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
+            $statement->bind_param('sss', $destination, date("Y-m-d H:i:s"), 'logo');
+            $statement->execute();
+        } else {
+            $statement = $conn->prepare("INSERT INTO `meta_data` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
+            $statement->bind_param("sss", $destination, 'Logo', 'logo');
+            $statement->execute();
+        }
         try{
             foreach($form_data as $key => $row)
             {
@@ -42,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if(!empty($get_metadata($row['slug'])))  {
                     $statement = $conn->prepare("UPDATE `meta_data` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
-                    $statement->bind_param("sss", $row['value'], date('now'), $row['slug']);
+                    $statement->bind_param("sss", $row['value'], date('Y-m-d H:i:s'), $row['slug']);
                     $statement->execute();
                 } else {
                     $statement = $conn->prepare("INSERT INTO `meta_data` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
