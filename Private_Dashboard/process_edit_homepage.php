@@ -35,14 +35,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         $conn->begin_transaction();
-
+        $logo_info = [
+            'name'=> 'Logo',
+            'value' => $destination,
+            'slug' => 'logo',
+        ];
         if($get_metadata('logo')){
             $statement = $conn->prepare("UPDATE `meta_data` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
-            $statement->bind_param('sss', $destination, date("Y-m-d H:i:s"), 'logo');
+            $statement->bind_param('sss', $destination, date("Y-m-d H:i:s"), $logo_info['slug']);
             $statement->execute();
         } else {
             $statement = $conn->prepare("INSERT INTO `meta_data` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
-            $statement->bind_param("sss", $destination, 'Logo', 'logo');
+            $statement->bind_param("sss", $destination, $logo_info['name'], $logo_info['slug']);
             $statement->execute();
         }
         try{
