@@ -52,7 +52,7 @@ foreach($data as $row){
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color">
 <a class="navbar-brand" href="#">
     <img 
-      src="<?=$_SESSION['metadata']['logo']['value']?>" 
+      src="/<?=$_SESSION['metadata']['logo']['value']?>" 
       width="33px" 
       height="33px"
     > 
