@@ -32,11 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $row['slug'] = str_replace(" ", "_", $row['value']);
 
                 if(!empty($get_metadata($row['slug'])))  {
-                    $statement = $conn->prepare("UPDATE `metadata` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
+                    $statement = $conn->prepare("UPDATE `meta_data` SET `value` = ?, `updated` = ? WHERE `slug` = ?");
                     $statement->bind_param("sss", $row['value'], date('now'), $row['slug']);
                     $statement->execute();
                 } else {
-                    $statement = $conn->prepare("INSERT INTO `metadata` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
+                    $statement = $conn->prepare("INSERT INTO `meta_data` (`value`, `name`, `slug`) VALUES (?, ?, ?)");
                     $statement->bind_param("sss", $row['value'], $row['name'], $row['slug']);
                     $statement->execute();
                 }
