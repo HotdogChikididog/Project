@@ -1,5 +1,6 @@
 <?php
 require_once("include/connection.php");
+session_start();
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
@@ -66,6 +67,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             if($conn->commit()){
+                $statement = $conn->prepare('SELECT * FROM meta_data');
+                $statement->execute();
+                $result = $statement->get_result();
+                $data = $result->fetch_assoc(); 
+                
+                $_SESSION['metadata'] = $data;
                 echo '
                 <script type = "text/javascript">
                     alert("File Upload");
