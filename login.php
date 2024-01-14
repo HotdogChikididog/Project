@@ -1,3 +1,18 @@
+<?php 
+session_start();
+$conn = mysqli_connect("localhost:3306","root","","file_management");
+
+$statement = $conn->prepare('SELECT * FROM meta_data');
+$statement->execute();
+$result = $statement->get_result();
+$data = $result->fetch_all(MYSQLI_ASSOC); 
+$statement->close();
+
+foreach($data as $row){
+  $_SESSION['metadata'][$row['slug']] = $row;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +50,14 @@
   <!-- Start your project here-->
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color">
-    <a class="navbar-brand" href="index.html"><img src="js/img/Logo.png" width="33px" height="33px"> <font color="#F0B56F">H</font>ealth <font color="#F0B56F">D</font>ata <font color="#F0B56F">H</font>ub</a>
+<a class="navbar-brand" href="#">
+    <img 
+      src="<?=$_SESSION['metadata']['logo']['value']?>" 
+      width="33px" 
+      height="33px"
+    > 
+      <span><?=$_SESSION['metadata']['company_name']['value']?></span> 
+    </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
     aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
