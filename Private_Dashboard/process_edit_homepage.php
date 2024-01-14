@@ -6,8 +6,17 @@ require_once("include/connection.php");
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle file uploads
-    $logo = $_FILES["logo"]["name"];
-    if (move_uploaded_file($_FILES["logo"]["tmp_name"], "uploads/" . $logo)) {
+    $filename = $_FILES["logo"]["name"];
+    // get the file extension
+    $extension = pathinfo($filename, PATHINFO_EXTENSION);
+    $filepath = 'logo' . '.' . $extension;
+
+    // destination of the file on the server
+    $destination = '../uploads/meta_data/' . $filepath;
+
+    $file = $_FILES['logo']['tmp_name'];
+
+    if (move_uploaded_file($file, $destination)) {
         // File uploaded successfully, continue processing
 
         // Retrieve other values from the form

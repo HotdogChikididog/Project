@@ -181,13 +181,13 @@ session_start();
                             <div>
                                 <label for="mission_text">Mission:</label>
                                 <textarea name="mission_text[value]" rows="4" required></textarea>
-                                <input type="hidden" name="mission_text[name]" value="Company Name">
+                                <input type="hidden" name="mission_text[name]" value="Mission Text">
                                 <input type="hidden" name="mission_text[slug]" value="<?=$_SESSION['mission_text']['slug'] ?? ''?>">
                             </div>
                             <div>
                                 <label for="vision_text">Vision:</label>
                                 <textarea name="vision_text[value]" rows="4" required></textarea>
-                                <input type="hidden" name="vision_text[name]" value="Company Name">
+                                <input type="hidden" name="vision_text[name]" value="Vision Text">
                                 <input type="hidden" name="vision_text[slug]" value="<?=$_SESSION['vision_text']['slug'] ?? ''?>">
                             </div>
 
